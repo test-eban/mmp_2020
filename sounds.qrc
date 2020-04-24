@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sounds/knock.wav</file>
+    </qresource>
+</RCC>
