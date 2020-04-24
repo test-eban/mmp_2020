@@ -6,26 +6,18 @@
 #include "glcolorrgba.h"
 
 /**
- * @brief The GLToken class TODO
+ * @brief This class provides everything necessary to work with the tokens. It utilizes GLMultipleBody to archieve a better framerate.
  */
 class GLToken : public GLMultipleBody
 {
 public:
+    /**
+     * @brief constructor. calls baseclassconstructor, sets the color and appends this object into the copies container.
+     * @param color color of the token
+     */
     GLToken(GLColorRgba color);
 
-    //simple setters
-//    void setFieldCoord(const QPoint & newVal){m_fieldCoord = newVal;}
-
-    //simple getters
-//    const QPoint & getFieldCoord()const{return m_fieldCoord;}
-//    GLfloat getHeight(){return m_height;}
-
-//    /**
-//      * Returns true, if discs are colliding
-//      */
-//    bool isColliding(const GLToken * other);
-
-    //Animation Section
+    // Animation Section
     void jumpUp();
     void jumpDown();
     /**
@@ -42,15 +34,26 @@ public:
      */
     void calculateDrawMatrix() Q_DECL_OVERRIDE;
 
+    /**
+     * @brief returns the filepath of the binaryObjectFile
+     * @return
+     */
     QString getFile() {return m_binaryFilePath; }
 
+    /**
+     * @brief getter for m_movable
+     * @return m_movable
+     */
     bool isMovable() { return m_movable; }
 
+    /**
+     * @brief setter for m_movable
+     * @param new val for m_movable
+     */
     void setMovable(bool movable) { m_movable = movable; }
 
 private:
-    int m_slices;
-    bool m_movable;
+    bool m_movable; // determines if the token can and should be moved by the connectfourclass
 
     // Animation
     QVector3D m_liftVector;
@@ -58,8 +61,6 @@ private:
     QVector3D m_startLiftVector;
 
     // File
-//    const QString m_binaryFilePath = "/home/testeban/Desktop/wvfrontexport/final/Stein.dat";
-//    const QString m_binaryFilePath = "/home/testeban/Desktop/MM2020_01/models/lameStein.dat";
     const QString m_binaryFilePath = "/home/testeban/Desktop/MM2020_01/models/stein.dat";
 };
 

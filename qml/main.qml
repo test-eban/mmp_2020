@@ -6,7 +6,7 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Animation and Mouse Event Demo")
+    title: qsTr("4 Gewinnt")
 
         GLPage {
             id: glPage

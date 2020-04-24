@@ -8,63 +8,79 @@
 #include "gltokentray.h"
 #include "../sound/soundengine.h"
 
+/**
+ * @brief This class forms the core of the connect-4 programming. It constructs the tokens, the board and the token trays and makes sure that they are drawn.
+ */
 class ConnectFour : public GLItem
 {
     Q_OBJECT
 public:
+    /**
+     * @brief constructor. sets values and creates objects (tokens, board, tokentrays)
+     */
     ConnectFour();
+
+signals:
+    void setText(QString text);
+
 public slots:
     /**
-     * @brief mousePressed
-     * @param x
-     * @param y
-     * @param button
+     * @brief returns a fitting statusText for the upper left text field
+     * @return QString that contains the new value for statusText
+     */
+    QString getStatusText();
+
+    /**
+     * @brief handles mousepressevents
+     * @param x x-position of the mouse at click
+     * @param y y-position of the mouse at click
+     * @param button used mousebutton
      */
     void mousePressed(int x, int y, int button);
     /**
-     * @brief mouseReleased
-     * @param x
-     * @param y
-     * @param button
+     * @brief handles mousepressevents
+     * @param x x-position of the mouse at click
+     * @param y y-position of the mouse at click
+     * @param button used mousebutton
      */
     void mouseReleased(int x, int y, int button);
     /**
-     * @brief mouseMoved
-     * @param x
-     * @param y
-     * @param button
+     * @brief handles mousemoveevents
+     * @param x x-position of the mouse at click
+     * @param y y-position of the mouse at click
+     * @param button used mousebutton
      */
     void mouseMoved(int x, int y, int button);
 
     /**
-     * @brief rotateY
-     * @param angle
+     * @brief rotates along y axis
+     * @param angle turn angle
      */
     void rotateY(float angle = 1.0);
     /**
-     * @brief rotateX
-     * @param angle
+     * @brief rotates along x axis
+     * @param angle turn angle
      */
     void rotateX(float angle = 1.0);
     /**
-     * @brief zoomIn
+     * @brief alters parameters so that the view zooms in
      */
     void zoomIn();
     /**
-     * @brief zoomOut
+     * @brief alters parameters so that the view zooms out
      */
     void zoomOut();
 
     /**
-     * @brief rotateLeft
+     * @brief starts left-rotation
      */
     void rotateLeft();
     /**
-     * @brief rotateRight
+     * @brief starts right-rotation
      */
     void rotateRight();
     /**
-     * @brief stopRotation
+     * @brief stops the rotation
      */
     void stopRotation();
 
@@ -75,11 +91,21 @@ protected:
      */
     void wheelEvent (QWheelEvent * e) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief called by draw(), paints scene
+     */
     void paintUnderQmlScene() Q_DECL_OVERRIDE;
 
+    /**
+     * @brief called by draw(), paints scene
+     */
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
 
+    /**
+     * @brief setups the geometry
+     */
     void setupGeometry() Q_DECL_OVERRIDE;
+
     /**
      * @brief doSynchronizeThreads Copy data from GUI-thread to render-thread and vice versa.
      * Virtual function to be overridden by subclasses
@@ -92,18 +118,30 @@ protected:
     virtual void setupBuffers();
 
     /**
-     * @brief isTokenNearBoard
-     * @param pos
-     * @return
+     * @brief checks if the position of the token is near the board
+     * @param pos position that will be checked
+     * @return  true if token is near board
+     *          false if not
      */
     bool isTokenNearBoard(const QVector3D pos);
 
     /**
-     * @brief getRowByPosition
-     * @param pos
-     * @return
+     * @brief assumes the column according to the given position
+     * @details a columnis 0.5 wide. if the given position overshoots the column by +/- 0.25 it is sent to an adjacent column
+     * @param pos position of the token
+     * @return column of the token
      */
-    unsigned int getRowByPosition(const QVector3D pos);
+    unsigned int getColumnByPosition(const QVector3D pos);
+
+    /**
+     * @brief switches the player. 1 to 2, 2 to 1
+     */
+    void switchPlayer();
+
+    /**
+     * @brief handles a gamewin
+     */
+    void gameWin();
 
 private:
     // mouse-events and stone-movement
@@ -116,10 +154,12 @@ private:
     QOpenGLBuffer * m_indexBuffer;
     // sound engine
     SoundEngine * m_soundEngine;
+    // misc
+    unsigned int m_activePlayer;
 
     // tokens
     const int m_numberOfTokens = 42;
-    int m_selectedTokenIndex = -1;
+    int m_selectedTokenIndex;
     QList<GLToken* > m_tokens;
     // trays
     GLTokenTray* m_tray1;
@@ -138,9 +178,9 @@ private:
     bool m_animationActive;
 
     // to transform the camera
-    float m_guiThreadXRotation = 0.0f;
-    float m_guiThreadYRotation= 0.0f;
-    float m_guiZoomFactor = 1.0f;
+    float m_guiThreadXRotation;
+    float m_guiThreadYRotation;
+    float m_guiZoomFactor;
 };
 
 #endif // MYGLITEM_H

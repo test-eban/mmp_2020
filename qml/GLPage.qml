@@ -1,4 +1,5 @@
 import QtQuick 2.0
+
 Item{
     id:mainItem
     property int llX: 0
@@ -11,9 +12,9 @@ Item{
         color: "#ff0000"
         anchors.fill: parent
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "red" }
-            GradientStop { position: 0.33; color: "yellow" }
-            GradientStop { position: 1.0; color: "green" }
+            GradientStop { position: 0.0; color: "lightblue" }
+            GradientStop { position: 0.33; color: "darkgrey" }
+            GradientStop { position: 1.0; color: "darkgrey" }
         }
     }
     GLForm {
@@ -21,25 +22,32 @@ Item{
         anchors.fill: parent
         llX: mainItem.llX + x
         llY: mainItem.llY + mainItem.height - y - height
-        buttonLeft.onClicked: myGLItem.rotateLeft()
-        buttonStop.onClicked: {
-            myGLItem.stopRotation()
+
+        Text {
+            text: "Nächster Spieler: Rot"
+            id: statusText
         }
+
+        buttonLeft.onClicked: myGLItem.rotateLeft()
+        buttonStop.onClicked: myGLItem.stopRotation()
         buttonRight.onClicked: myGLItem.rotateRight()
         mouseArea.onPressed: {
             console.log("Mouse pressed at: " + mouse.x + "/" + mouse.y)
             myGLItem.mousePressed(mouse.x, mouse.y, mouse.button)
             mouse.accepted = true
+            statusText.text = myGLItem.getStatusText();
         }
         mouseArea.onReleased: {
             console.log("Mouse released at: " + mouse.x + "/" + mouse.y)
             myGLItem.mouseReleased(mouse.x, mouse.y, mouse.button)
             mouse.accepted = true
+            statusText.text = myGLItem.getStatusText();
         }
         mouseArea.onPositionChanged:  {
             console.log("Mouse moved to: " + mouse.x + "/" + mouse.y)
             myGLItem.mouseMoved(mouse.x, mouse.y, mouse.button)
             mouse.accepted = true
+            statusText.text = myGLItem.getStatusText();
         }
         Keys.onLeftPressed: {
             myGLItem.rotateY(-5.0)

@@ -25,30 +25,10 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    engine.
-            load(url);
+    engine.load(url);
     qDebug() <<  "main (GUI) thread: " << QThread::currentThreadId();
 
     return app.exec();
-
-//    bool win = false;
-//    GLBoard* gl = new GLBoard(cl_Red);
-
-//    gl->fillBoard();
-//    gl->addToken(0,1);
-//    gl->addToken(1,2);
-//    gl->addToken(1,1);
-//    gl->addToken(2,2);
-//    gl->addToken(3,1);
-//    gl->addToken(2,2);
-//    gl->addToken(2,1);
-//    gl->addToken(3,2);
-//    gl->addToken(3,1);
-//    win = gl->checkForWin();
-
-//    gl->printBoard();
-
-//    std::cout << std::endl << "win: " << win << std::endl;
 
     return 0;
 }
