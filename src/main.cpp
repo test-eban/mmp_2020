@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
-#include "gl/myglitem.h"
+#include "gl/connectfour.h"
 #include <QThread>
 
 #include "gl/glboard.h"
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
          app.installTranslator(&translator);
 
     QQmlApplicationEngine engine;
-    qmlRegisterType<MyGLItem>("GLComponents", 1,0, "MyGLItem");
+    qmlRegisterType<ConnectFour>("GLComponents", 1,0, "MyGLItem");
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -1,41 +1,34 @@
-﻿#include "myglitem.h"
+﻿#include "connectfour.h"
 #include <QVector3D>
 #include <QQuickWindow>
 #include "QThread"
 
-// Larissa
-
-MyGLItem::MyGLItem()
+ConnectFour::ConnectFour()
     :GLItem()
 {
     m_yellow = new GLColorRgba(1, 0.75, 0);
     m_red = new GLColorRgba(0.78125, 0.0078125, 0.171875);
     m_blue = new GLColorRgba(0, 0.359375, 0.7734375);
-//    m_grey = new GLColorRgba(0.373, 0.373, 0.373);
-    m_grey = new GLColorRgba(0.473, 0.473, 0.473);
+    m_grey = new GLColorRgba(0.443, 0.443, 0.443);
 
     m_backgroundColor = GLColorRgba::clBlack;
     m_drawAxes = false;
     m_movementEnabled = true;
-    m_eye = QVector3D(0.0,0.5,1.0)* 3.0;
+    m_eye = QVector3D(0.0,0.5,1.0)* 4.0;
     m_lightingEnabled = true;
-//    m_colorArrayEnabled = true;
+    m_colorArrayEnabled = true;
 
 
-//    m_mouseRay = new GLMouseRay();
     GLToken* token;
-//    GLDisc* token;
     for (int i = 0; i < m_numberOfTokens; i++)
     {
-        if (i % 2 == 0)
+        if (i < 21)
         {
             token = new GLToken(*m_red);
-//            token = new GLDisc(*m_red,QPoint(0,0), 0.5, 0.25, 16);
         }
         else
         {
             token = new GLToken(*m_yellow);
-//            token = new GLDisc(*m_yellow,QPoint(0,0), 0.5, 0.25, 16);
         }
         m_tokens.append(token);
     }
@@ -49,7 +42,6 @@ MyGLItem::MyGLItem()
     m_soundEngine = new SoundEngine(this);
     m_soundEngine->setEnabled(true);
     m_soundEngine->loadSound(":/sounds/knock.wav");
-    m_mouseRaySet = false;
     m_animationStep = 0;
     m_totalAnimationSteps = 0;
     m_animationActive = false;
@@ -57,35 +49,35 @@ MyGLItem::MyGLItem()
     m_timer->start();
 }
 
-void MyGLItem::rotateY(float angle)
+void ConnectFour::rotateY(float angle)
 {
     m_guiThreadYRotation += angle;
     if (window())
         window()->update();
 }
 
-void MyGLItem::rotateX(float angle)
+void ConnectFour::rotateX(float angle)
 {
     m_guiThreadXRotation += angle;
     if (window())
         window()->update();
 }
 
-void MyGLItem::zoomIn()
+void ConnectFour::zoomIn()
 {
    m_guiZoomFactor *= 1.01f;
    if (window())
        window()->update();
 }
 
-void MyGLItem::zoomOut()
+void ConnectFour::zoomOut()
 {
    m_guiZoomFactor /= 1.01f;
    if (window())
        window()->update();
 }
 
-void MyGLItem::wheelEvent(QWheelEvent *e)
+void ConnectFour::wheelEvent(QWheelEvent *e)
 {
     if( e->angleDelta().y() > 0)
         m_eye /= 1.1f;
@@ -95,7 +87,7 @@ void MyGLItem::wheelEvent(QWheelEvent *e)
     qDebug() << " MyGLItem::wheelEvent running on thread: " << QThread::currentThreadId();
 }
 
-void MyGLItem::mousePressed(int x, int y, int button)
+void ConnectFour::mousePressed(int x, int y, int button)
 {
     qDebug() << " MyGLItem::mousePressEvent running on thread: " << QThread::currentThreadId();
     if(m_lastMouseEvent)
@@ -108,7 +100,7 @@ void MyGLItem::mousePressed(int x, int y, int button)
         window()->update();
 }
 
-void MyGLItem::mouseReleased(int x, int y, int button)
+void ConnectFour::mouseReleased(int x, int y, int button)
 {
     if(m_lastMouseEvent)
         delete m_lastMouseEvent;
@@ -119,7 +111,7 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         window()->update();
 }
 
-void MyGLItem::mouseMoved(int x, int y, int button)
+void ConnectFour::mouseMoved(int x, int y, int button)
 {
     if(m_lastMouseEvent)
         delete m_lastMouseEvent;
@@ -130,12 +122,11 @@ void MyGLItem::mouseMoved(int x, int y, int button)
         window()->update();
 }
 
-void MyGLItem::paintUnderQmlScene()
+void ConnectFour::paintUnderQmlScene()
 {
-    //  drawTriangles();
 }
 
-void MyGLItem::paintOnTopOfQmlScene()
+void ConnectFour::paintOnTopOfQmlScene()
 {
     renderer()->setLightingEnabled(m_lightingEnabled);
 
@@ -144,21 +135,25 @@ void MyGLItem::paintOnTopOfQmlScene()
         m_tokens[i]->draw(renderer());
     }
     m_board->draw(renderer());
-//    m_mouseRay->draw(renderer());
     m_tray1->draw(renderer());
     m_tray2->draw(renderer());
 }
 
-void MyGLItem::setupGeometry()
+void ConnectFour::setupGeometry()
 {
-    GLItem::setupGeometry(); //this will create the coordinate axes
-//    m_mouseRay->makeSurface(nullptr, nullptr);
+    GLItem::setupGeometry();
 
     for (int i = 0; i < m_tokens.size(); i++)
     {
         m_tokens[i]->readBinaryModelFile(m_tokens[i]->getFile());
-//        m_tokens[i]->makeSurface(&m_points, &m_indices);
-        m_tokens[i]->move(QVector3D(-2.2,0.25,0));
+        if (i < 21)
+        {
+            m_tokens[i]->move(QVector3D(-2.2,0.3,0) + QVector3D(0,0,1-i*0.1));
+        }
+        else
+        {
+            m_tokens[i]->move(QVector3D(2.2,0.3,0) + QVector3D(0,0,1-i%21*0.1));
+        }
     }
     m_board->setModelOffset(QVector3D(0,-1.5,0));
     m_board->readBinaryModelFile(m_board->getFile());
@@ -173,7 +168,7 @@ void MyGLItem::setupGeometry()
     qDebug() << "MyGLItem::setupGeometry() running on render thread Id:" << QThread::currentThreadId();
 }
 
-void MyGLItem::doSynchronizeThreads()
+void ConnectFour::doSynchronizeThreads()
 {
     GLItem::doSynchronizeThreads();
 
@@ -209,23 +204,20 @@ void MyGLItem::doSynchronizeThreads()
                 }
             }
         }
-        else
-        {
-            qDebug() << "so yeah there is an animation running";
-        }
 
         if (m_selectedTokenIndex != -1 && m_tokens[m_selectedTokenIndex]->isMovable())
         {
             //Calculate distance from press point to disc center
             QVector3D pressPos;
             renderer()->mouseIntersection(&pressPos, v_Y, 0.0f, m_lastMouseEvent->pos());
-            QVector3D discPos = m_tokens[m_selectedTokenIndex]->getTransformation() * v_Zero + m_tokens[m_selectedTokenIndex]->getCenter(); //translation of disc
-            m_pressPosToDiscPos = discPos - pressPos;
+//            QVector3D discPos = m_tokens[m_selectedTokenIndex]->getTransformation() * v_Zero + m_tokens[m_selectedTokenIndex]->getCenter(); //translation of disc
+            m_oldDiscPos = m_tokens[m_selectedTokenIndex]->getCenter(); //translation of disc
+            m_pressPosToDiscPos = m_oldDiscPos - pressPos;
 
             m_tokens[m_selectedTokenIndex]->setSelected(true);
             m_tokens[m_selectedTokenIndex]->setShowFrame(true);
             m_tokens[m_selectedTokenIndex]->jumpUp();
-            m_totalAnimationSteps = 1;
+            m_totalAnimationSteps = 5;
             m_animationActive = true;
             m_lastMouseEvent->setAccepted(true);
         }
@@ -236,37 +228,35 @@ void MyGLItem::doSynchronizeThreads()
     {
         if (m_selectedTokenIndex != -1 && m_tokens[m_selectedTokenIndex]->isMovable())
         {
+            int player = m_tokens[m_selectedTokenIndex]->color() == *m_red ? 1 : 2;
+
             m_tokens[m_selectedTokenIndex]->setShowFrame(false);
             m_tokens[m_selectedTokenIndex]->setSelected(false);
 
-//            qDebug() << "Mothabinging bing" << m_tokens[m_selectedTokenIndex]->getCenter();
             QVector3D center = m_tokens[m_selectedTokenIndex]->getCenter();
             if(isTokenNearBoard(center))
             {
-                int row = getRowByPosition(m_tokens[m_selectedTokenIndex]->getCenter());
-                if (row == -1)
+                unsigned int row = getRowByPosition(m_tokens[m_selectedTokenIndex]->getCenter());
+                int y = m_board->addToken(row, player);
+
+                if (y != -1)
                 {
-                    // zurück zum tray
+                    m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + QVector3D(0, (2.75-0.5*y), 0) + QVector3D(-1.5+0.5*row, 0, 0));
+                    m_tokens[m_selectedTokenIndex]->setMovable(false);
                 }
                 else
                 {
-                    int player = m_tokens[m_selectedTokenIndex]->color() == *m_red ? 1 : 2;
-                    int y = m_board->addToken(row, player);
-                    if (y != -1)
-                    {
-                        m_tokens[m_selectedTokenIndex]->move(QVector3D(0, (2.5-0.5*y), 0));
-                        m_tokens[m_selectedTokenIndex]->setMovable(false);
-                        m_board->printBoard();
-                        qDebug() << "################################\n" << "\n################################\n" << m_board->checkForWin() << "\n################################\n" << "\n################################\n";
-                    }
-                    else
-                    {
-                        // zurück zum tray
-                    }
+                    m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + m_oldDiscPos);
+//                    this->moveTokenBackToTray(player, m_tokens[m_selectedTokenIndex]);
                 }
             }
+            else
+            {
+                m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + m_oldDiscPos);
+//                moveTokenBackToTray(player, m_tokens[m_selectedTokenIndex]);
+            }
             m_tokens[m_selectedTokenIndex]->jumpDown();
-            m_totalAnimationSteps = 1;
+            m_totalAnimationSteps = 5;
             m_animationActive = true;
             m_lastMouseEvent->setAccepted(true);
         }
@@ -275,36 +265,26 @@ void MyGLItem::doSynchronizeThreads()
     //mouse move
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseMove) && !m_lastMouseEvent->isAccepted())
     {
-//        if (m_lastMouseEvent->button()
-//        {
-//        }
         if (m_selectedTokenIndex != -1 && m_tokens[m_selectedTokenIndex]->isMovable())
         {
-
             m_lastMouseEvent->setAccepted(true);
             QVector3D movePos;
             renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
             QVector3D moveDistance = movePos + m_pressPosToDiscPos;
-//            QMatrix4x4 m;
-//            m.translate(moveDistance);
-//            m_tokens[m_selectedTokenIndex]->setTransformation(m);
-            qDebug() << m_tokens[m_selectedTokenIndex]->getCenter();
-//            qDebug() << "Ich bin drin" << m_selectedTokenIndex;
-            qDebug() << "######################################################" << moveDistance;
             m_tokens[m_selectedTokenIndex]->move(moveDistance - m_tokens[m_selectedTokenIndex]->getCenter());
-//            m_pressPosToDiscPos = v_Zero;
-
-//            m_tokens[m_selectedTokenIndex]->calculateDrawMatrix();
         }
     }
 
     //Animation
     if(m_animationActive)
     {
-        if(m_animationStep < m_totalAnimationSteps){
+        if(m_animationStep < m_totalAnimationSteps)
+        {
             m_animationStep++;
             m_tokens[m_selectedTokenIndex]->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
-        }else{
+        }
+        else
+        {
             m_tokens[m_selectedTokenIndex]->finishAnimation();
             m_animationStep = 0;
             m_animationActive = false;
@@ -312,7 +292,7 @@ void MyGLItem::doSynchronizeThreads()
     }
 }
 
-void MyGLItem::setupBuffers()
+void ConnectFour::setupBuffers()
 {
     //setup vertexbuffer
     m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
@@ -336,7 +316,7 @@ void MyGLItem::setupBuffers()
     m_indexBuffer->release();
 }
 
-bool MyGLItem::isTokenNearBoard(QVector3D pos)
+bool ConnectFour::isTokenNearBoard(QVector3D pos)
 {
     bool result = true;
     if ((pos.z() * pos.z()) > 1)
@@ -351,9 +331,9 @@ bool MyGLItem::isTokenNearBoard(QVector3D pos)
     return result;
 }
 
-unsigned int MyGLItem::getRowByPosition(const QVector3D pos)
+unsigned int ConnectFour::getRowByPosition(const QVector3D pos)
 {
-    int index = -1;
+    int index = 8;
     float base = -1.25;
 
     for (float i = 0; i < 7; i++)
@@ -368,19 +348,19 @@ unsigned int MyGLItem::getRowByPosition(const QVector3D pos)
     return index;
 }
 
-void MyGLItem::rotateLeft()
+void ConnectFour::rotateLeft()
 {
     m_rotationIncrement = -0.5;
     setMovementEnabled(true);
 }
 
-void MyGLItem::rotateRight()
+void ConnectFour::rotateRight()
 {
     m_rotationIncrement = 0.5;
     setMovementEnabled(true);
 }
 
-void MyGLItem::stopRotation()
+void ConnectFour::stopRotation()
 {
     setMovementEnabled(false);
 }

@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         src/gl/chessboard.cpp \
+        src/gl/connectfour.cpp \
         src/gl/glboard.cpp \
         src/gl/glbody.cpp \
         src/gl/glbodygroup.cpp \
@@ -29,7 +30,6 @@ SOURCES += \
         src/gl/gltoken.cpp \
         src/gl/gltokentray.cpp \
         src/main.cpp \
-        src/gl/myglitem.cpp \
         src/gl/shaderdebugger.cpp \
         src/sound/soundengine.cpp
 
@@ -53,6 +53,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/gl/chessboard.h \
+    src/gl/connectfour.h \
     src/gl/glboard.h \
     src/gl/glbody.h \
     src/gl/glbodygroup.h \
@@ -68,6 +69,5 @@ HEADERS += \
     src/gl/glsphere.h \
     src/gl/gltoken.h \
     src/gl/gltokentray.h \
-    src/gl/myglitem.h \
     src/gl/shaderdebugger.h \
     src/sound/soundengine.h
