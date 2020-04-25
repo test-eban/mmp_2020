@@ -1,4 +1,4 @@
-4#include "gltoken.h"
+#include "gltoken.h"
 
 GLToken::GLToken(GLColorRgba color)
     : GLMultipleBody("Token")
@@ -7,12 +7,6 @@ GLToken::GLToken(GLColorRgba color)
     m_copies.append(this);
 
     m_movable = true;
-}
-
-void GLToken::calculateDrawMatrix()
-{
-  m_drawMatrix = m_transformationMatrix;
-  m_drawMatrix.translate(m_liftVector);
 }
 
 void GLToken::jumpUp()
@@ -35,4 +29,10 @@ void GLToken::finishAnimation()
 void GLToken::updateAnimatedProperties(float animationState)
 {
    m_liftVector = m_startLiftVector + localAnimationState(animationState) *(m_finalLiftVector - m_startLiftVector);
+}
+
+void GLToken::calculateDrawMatrix()
+{
+  m_drawMatrix = m_transformationMatrix;
+  m_drawMatrix.translate(m_liftVector);
 }

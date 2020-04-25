@@ -1,9 +1,7 @@
 #ifndef GLTOKEN_H
 #define GLTOKEN_H
 
-#include "glbody.h"
 #include "glmultiplebody.h"
-#include "glcolorrgba.h"
 
 /**
  * @brief This class provides everything necessary to work with the tokens. It utilizes GLMultipleBody to archieve a better framerate.
@@ -38,7 +36,7 @@ public:
      * @brief returns the filepath of the binaryObjectFile
      * @return
      */
-    QString getFile() {return m_binaryFilePath; }
+    QString getFile() { return m_binaryFilePath; }
 
     /**
      * @brief getter for m_movable
@@ -61,7 +59,7 @@ private:
     QVector3D m_startLiftVector;
 
     // File
-    const QString m_binaryFilePath = "/home/testeban/Desktop/MM2020_01/models/stein.dat";
+    const QString m_binaryFilePath = ":/models/stein.dat";
 };
 
 #endif // GLTOKEN_H

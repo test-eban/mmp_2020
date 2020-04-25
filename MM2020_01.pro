@@ -29,11 +29,9 @@ SOURCES += \
         src/sound/soundengine.cpp
 
 RESOURCES += qml.qrc \
+    models.qrc \
     shaders.qrc \
-    sounds.qrc \
-    translations.qrc
-
-TRANSLATIONS += translations/mm2019_de.ts
+    sounds.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

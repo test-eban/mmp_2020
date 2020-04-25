@@ -1,7 +1,4 @@
 ﻿#include "connectfour.h"
-#include <QVector3D>
-#include <QQuickWindow>
-#include "QThread"
 
 ConnectFour::ConnectFour()
     :GLItem()
@@ -297,9 +294,6 @@ void ConnectFour::doSynchronizeThreads()
                     else
                     {
                         switchPlayer();
-                        qDebug() << "emitting" << getStatusText();
-                        emit setText(getStatusText());
-                        qDebug() << "emitted";
                     }
                 }
                 else

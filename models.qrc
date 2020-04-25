@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>models/brett.dat</file>
+        <file>models/spielsteinablagebank.dat</file>
+        <file>models/stein.dat</file>
+    </qresource>
+</RCC>

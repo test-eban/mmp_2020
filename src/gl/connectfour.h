@@ -1,8 +1,10 @@
 #ifndef MYGLITEM_H
 #define MYGLITEM_H
 
-#include "glitem.h"
 #include <QOpenGLBuffer>
+#include "QThread"
+#include "QQuickWindow"
+#include "glitem.h"
 #include "glboard.h"
 #include "gltoken.h"
 #include "gltokentray.h"
@@ -19,9 +21,6 @@ public:
      * @brief constructor. sets values and creates objects (tokens, board, tokentrays)
      */
     ConnectFour();
-
-signals:
-    void setText(QString text);
 
 public slots:
     /**

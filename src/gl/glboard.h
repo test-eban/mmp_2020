@@ -48,7 +48,7 @@ private:
      */
     void fillBoard();
 
-    const QString m_binaryFilePath = "/home/testeban/Desktop/MM2020_01/models/brett.dat";
+    const QString m_binaryFilePath = ":/models/brett.dat";
     std::vector<std::vector<unsigned int>> board;
 
     unsigned int lastX;

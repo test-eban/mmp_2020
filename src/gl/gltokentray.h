@@ -27,7 +27,7 @@ public:
     QString getFile() { return m_binaryFilePath; }
 
 private:
-    const QString m_binaryFilePath = "/home/testeban/Desktop/MM2020_01/models/spielsteinablagebank.dat";
+    const QString m_binaryFilePath = ":/models/spielsteinablagebank.dat";
 };
 
 #endif // GLTOKENTRAY_H
