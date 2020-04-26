@@ -24,6 +24,13 @@ ConnectFour::ConnectFour()
 
     m_mouseEventProcessed = false;
     m_lastMouseEvent = nullptr;
+    m_animationStep = 0;
+    m_totalAnimationSteps = 0;
+    m_animationActive = false;
+    m_movementEnabled = false;
+    m_timer->start();
+
+    // sound
     m_soundEngine = new SoundEngine(this);
     m_soundEngine->setEnabled(true);
     m_soundEngine->loadSound(":/sounds/knock.wav");
@@ -40,11 +47,6 @@ ConnectFour::ConnectFour()
     m_soundEngine->loadSound(":/sounds/chip11.wav");
     m_soundEngine->loadSound(":/sounds/chip12.wav");
     m_soundEngine->loadSound(":/sounds/win.wav");
-    m_animationStep = 0;
-    m_totalAnimationSteps = 0;
-    m_animationActive = false;
-    m_movementEnabled = false;
-    m_timer->start();
 
     // objects
     GLToken* token;
