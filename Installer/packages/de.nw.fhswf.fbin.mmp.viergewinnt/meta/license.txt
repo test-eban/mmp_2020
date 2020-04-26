@@ -1,3 +1,0 @@
-Schriftliche Ausarbeitung des Studenten Stefan Laddach (laddach.stefan[AT]fh-swf.de) für das Fach Multimediaprogrammierung an der Fachhochschule Südwestfalen.
-Erstellt unter Verwendung der Quelltexte von Prof. Dr. Walter Roth (roth.walter[AT]fh-swf.de).
-Es gelten die Lizenzbestimmungen der LGPL.

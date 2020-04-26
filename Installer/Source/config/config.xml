@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+	<Name>4 Gewinnt</Name>
+	<Version>1.0.0</Version>
+	<Title>4 Gewinnt Installationsprogramm</Title>
+	<Publisher>Stefan Laddach</Publisher>
+	<StartMenuDir>4-Gewinnt</StartMenuDir>
+	<TargetDir>@HomeDir@/SLStudios/viergewinnt</TargetDir>
+</Installer>
