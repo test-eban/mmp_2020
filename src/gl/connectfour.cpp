@@ -279,26 +279,29 @@ void ConnectFour::doSynchronizeThreads()
             QVector3D center = m_tokens[m_selectedTokenIndex]->getCenter();
             if(isTokenNearBoard(center))
             {
-                unsigned int row = getColumnByPosition(m_tokens[m_selectedTokenIndex]->getCenter());
-                int y = m_board->insertToken(row, m_activePlayer);
-
-                if (y != -1)
+                unsigned int column = getColumnByPosition(m_tokens[m_selectedTokenIndex]->getCenter());
+                if (column != 8)
                 {
-                    m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + QVector3D(0, (2.75f-0.5f*y), 0) + QVector3D(-1.5f+0.5f*row, 0, 0));
-                    m_tokens[m_selectedTokenIndex]->setMovable(false);
-                    if (m_board->checkForWin())
-                    {
-                        gameWin();
+                    int y = m_board->insertToken(column, m_activePlayer);
 
+                    if (y != -1)
+                    {
+                        m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + QVector3D(0, (2.75f-0.5f*y), 0) + QVector3D(-1.5f+0.5f*column, 0, 0));
+                        m_tokens[m_selectedTokenIndex]->setMovable(false);
+                        if (m_board->checkForWin())
+                        {
+                            gameWin();
+
+                        }
+                        else
+                        {
+                            switchPlayer();
+                        }
                     }
                     else
                     {
-                        switchPlayer();
+                        m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + m_oldDiscPos);
                     }
-                }
-                else
-                {
-                    m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + m_oldDiscPos);
                 }
             }
             else

@@ -28,22 +28,6 @@ SOURCES += \
         src/gl/shaderdebugger.cpp \
         src/sound/soundengine.cpp
 
-RESOURCES += qml.qrc \
-    models.qrc \
-    shaders.qrc \
-    sounds.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 HEADERS += \
     src/gl/connectfour.h \
     src/gl/glboard.h \
@@ -59,3 +43,19 @@ HEADERS += \
     src/gl/gltokentray.h \
     src/gl/shaderdebugger.h \
     src/sound/soundengine.h
+
+RESOURCES += qml.qrc \
+    models.qrc \
+    shaders.qrc \
+    sounds.qrc
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH = /uml
+
+# Additional import path used to resolve QML modules just for Qt Quick Designer
+QML_DESIGNER_IMPORT_PATH =
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
