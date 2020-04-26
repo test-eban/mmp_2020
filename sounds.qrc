@@ -1,5 +1,18 @@
 <RCC>
     <qresource prefix="/">
         <file>sounds/knock.wav</file>
+        <file>sounds/chip1.wav</file>
+        <file>sounds/chip2.wav</file>
+        <file>sounds/chip3.wav</file>
+        <file>sounds/chip4.wav</file>
+        <file>sounds/chip5.wav</file>
+        <file>sounds/chip6.wav</file>
+        <file>sounds/chip7.wav</file>
+        <file>sounds/chip8.wav</file>
+        <file>sounds/chip9.wav</file>
+        <file>sounds/chip10.wav</file>
+        <file>sounds/chip11.wav</file>
+        <file>sounds/chip12.wav</file>
+        <file>sounds/win.wav</file>
     </qresource>
 </RCC>

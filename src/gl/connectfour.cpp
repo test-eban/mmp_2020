@@ -27,6 +27,19 @@ ConnectFour::ConnectFour()
     m_soundEngine = new SoundEngine(this);
     m_soundEngine->setEnabled(true);
     m_soundEngine->loadSound(":/sounds/knock.wav");
+    m_soundEngine->loadSound(":/sounds/chip1.wav");
+    m_soundEngine->loadSound(":/sounds/chip2.wav");
+    m_soundEngine->loadSound(":/sounds/chip3.wav");
+    m_soundEngine->loadSound(":/sounds/chip4.wav");
+    m_soundEngine->loadSound(":/sounds/chip5.wav");
+    m_soundEngine->loadSound(":/sounds/chip6.wav");
+    m_soundEngine->loadSound(":/sounds/chip7.wav");
+    m_soundEngine->loadSound(":/sounds/chip8.wav");
+    m_soundEngine->loadSound(":/sounds/chip9.wav");
+    m_soundEngine->loadSound(":/sounds/chip10.wav");
+    m_soundEngine->loadSound(":/sounds/chip11.wav");
+    m_soundEngine->loadSound(":/sounds/chip12.wav");
+    m_soundEngine->loadSound(":/sounds/win.wav");
     m_animationStep = 0;
     m_totalAnimationSteps = 0;
     m_animationActive = false;
@@ -83,7 +96,6 @@ void ConnectFour::mousePressed(int x, int y, int button)
     m_lastMouseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(x, y), QPointF(x, y),
                                        static_cast<Qt::MouseButton>(button),static_cast<Qt::MouseButton>(button), Qt::NoModifier);
     m_lastMouseEvent->setAccepted(false);
-    m_soundEngine->playSound(":/sounds/knock.wav");
     if(window())
         window()->update();
 }
@@ -254,6 +266,7 @@ void ConnectFour::doSynchronizeThreads()
         if (m_selectedTokenIndex != -1 && m_tokens[m_selectedTokenIndex]->isMovable())
         {
             //Calculate distance from press point to disc center
+            m_soundEngine->playSound(":/sounds/knock.wav");
             QVector3D pressPos;
             renderer()->mouseIntersection(&pressPos, v_Y, 0.0f, m_lastMouseEvent->pos());
             m_oldDiscPos = m_tokens[m_selectedTokenIndex]->getCenter(); //translation of disc
@@ -288,6 +301,9 @@ void ConnectFour::doSynchronizeThreads()
                     {
                         m_tokens[m_selectedTokenIndex]->move(-m_tokens[m_selectedTokenIndex]->getCenter() + QVector3D(0, (2.75f-0.5f*y), 0) + QVector3D(-1.5f+0.5f*column, 0, 0));
                         m_tokens[m_selectedTokenIndex]->setMovable(false);
+                        QString filename = ":/sounds/chip";
+                        filename.append(QString::number(rand()%12+1)).append(".wav");
+                        m_soundEngine->playSound(filename);
                         if (m_board->checkForWin())
                         {
                             gameWin();
@@ -415,6 +431,7 @@ void ConnectFour::switchPlayer()
 
 void ConnectFour::gameWin()
 {
+    m_soundEngine->playSound(":/sounds/win.wav");
     if (m_activePlayer == 1)
     {
         system("notify-send \"Spiel beendet\" \"Spieler Rot hat gewonnen!\nUm eine weitere Runde zu spielen, starten Sie das Spiel neu!\"");
